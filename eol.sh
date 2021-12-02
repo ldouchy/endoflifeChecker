@@ -37,7 +37,7 @@ if [ $? -eq "1" ] ; then
 fi
 
 # Retrieve OS information and define EOL URL
-OS_ID=$( docker run --rm ${IMAGE}:${TAG} /bin/sh -c "grep \"^ID\" /etc/os-release" | awk -F= '{print $2}' | sed 's/\"//g' )
+OS_ID=$( docker run --rm --entrypoint ""  ${IMAGE}:${TAG} /bin/sh -c "grep \"^ID\" /etc/os-release" | awk -F= '{print $2}' | sed 's/\"//g' )
 # Sanitize OS_ID
 OS_ID=${OS_ID//[^a-zA-Z0-9_]/}
 if [ ${DEBUG} -gt "0" ] ; then echo "OS_ID: ${OS_ID}" ; fi
@@ -46,13 +46,13 @@ if [[ ${OS_ID} = "alpine" ]] || [[ ${OS_ID} = "debian" ]] ; then
     case ${OS_ID} in
         alpine)
             OS_DETECTED="1"
-            OS_VERSION_ID=$(docker run --rm ${IMAGE}:${TAG} /bin/sh -c "grep \"^VERSION_ID\" /etc/os-release" | awk -F= '{print $2}' | awk -F\. '{print $1"."$2}' | sed 's/\"//g')
+            OS_VERSION_ID=$(docker run --rm --entrypoint ""  ${IMAGE}:${TAG} /bin/sh -c "grep \"^VERSION_ID\" /etc/os-release" | awk -F= '{print $2}' | awk -F\. '{print $1"."$2}' | sed 's/\"//g')
             EOLURL="https://endoflife.date/api/alpine.json"
             ;;
 
         debian)
             OS_DETECTED="1"
-            OS_VERSION_ID=$(docker run --rm ${IMAGE}:${TAG} /bin/sh -c "grep \"^VERSION_ID\" /etc/os-release" | awk -F= '{print $2}' | sed 's/\"//g')
+            OS_VERSION_ID=$(docker run --rm --entrypoint ""  ${IMAGE}:${TAG} /bin/sh -c "grep \"^VERSION_ID\" /etc/os-release" | awk -F= '{print $2}' | sed 's/\"//g')
             EOLURL="https://endoflife.date/api/debian.json"
             ;;
 
