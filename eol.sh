@@ -5,7 +5,7 @@
 DEBUG="0"
 
 # command line options
-if [ $# -eq "0" ] ; then echo "Usage: eol.sh image tag" ; fi
+if [ $# -eq "0" ] ; then echo "Usage: eol.sh image tag" ; exit 0 ; fi
 
 if [ $# -eq "1" ] ; then
   IMAGE=$( echo $1 | awk -F: '{print $1}' )
@@ -33,7 +33,7 @@ if [ $? -eq "1" ] ; then
   # Add your private repository login
   # docker login ... 
   Docker pull -q ${IMAGE}:${TAG} > /dev/null 2>&1
-  if [ $? -eq "1" ] ; then echo "${IMAGE},${TAG},image not found" ; fi
+  if [ $? -eq "1" ] ; then echo "${IMAGE},${TAG},image not found" ; exit 2 ; fi
 fi
 
 # Retrieve OS information and define EOL URL
